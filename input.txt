@@ -1,8 +1,8 @@
-cat=3
+cat=3;
+a=0;
 while(cat<1000){
-    a=15
-    cat=cat+(a*2)
+    a=15;
+    cat=cat+(a*2);
 }
-if(cat==1000){
-    print(a)
-}
+print(a);
+print(cat);

@@ -130,6 +130,11 @@ public class RPN {
                  * стека в выходной список и повторить этот шаг, иначе поместить прочитанную операцию в стек
                  */
                 case ARITHMETICAL_OP:
+                    if (token.getValue().equals(";")){
+                        while (!stack.isEmpty())
+                            out.add(stack.pop());
+                        break;
+                    }
                     while (!stack.isEmpty() && ((top = stack.peek()).getType().equals(Lexeme.ARITHMETICAL_OP)) && priority(top, token)) {
                         out.add(stack.pop());
                     }

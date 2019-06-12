@@ -11,7 +11,7 @@ public enum Lexeme {
     VAR(Pattern.compile("[A-Za-z_]+")),
     R_BR(Pattern.compile("\\)")),
     LOGICAL_OP(Pattern.compile(">|<|>=|<=|==|!=")),
-    ARITHMETICAL_OP(Pattern.compile("\\+|-|\\*|/")),
+    ARITHMETICAL_OP(Pattern.compile("\\+|-|\\*|/|;")), // добавил ";"
     ASSIGN_OP(Pattern.compile("=")),
     NUM(Pattern.compile("-?(0|([1-9][0-9]*))")),
     L_CB(Pattern.compile("\\{")),

@@ -96,13 +96,14 @@ public class Machine {
     }
 
     public static void run(LinkedList<Token> lt) throws MachineException {
-        Token address;
+        Token address = null;
 
         for (int i = 0; i < lt.size(); i++) {
             Token current = lt.get(i);
             switch (current.getType()) {
                 case VAR:
                 case NUM:
+                case END: // Как ты мог забыть про него!
                     stack.push(current);
                     break;
                 case ARITHMETICAL_OP:
@@ -115,12 +116,13 @@ public class Machine {
                     assign();
                     break;
                 case GOTO:
-                    address = stack.pop();
+                    //address = stack.pop(); // Возникает исключение
                     i = Integer.parseInt(address.getValue()) - 1;
                     break;
                 case GOTO_BY_FALSE:
                     address = stack.pop();
                     Token condition = stack.pop();
+
                     if (condition.getType().equals(Lexeme.LOGIC_VALUE) && condition.getValue().equals("false")) {
                         i = Integer.parseInt(address.getValue()) - 1;
                     }

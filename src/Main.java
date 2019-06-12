@@ -23,14 +23,8 @@ public class Main {
             out.println(it.next().toString());
         }*/
 
-        LinkedList<Token> lex = Lexer.read("new.txt");
-
-        for (Token lexToken:lex)
-            System.out.println(lexToken);
-        System.out.println("\n\n");
-
-        //////////
-        ///* Либо всё это
+        LinkedList<Token> lex = Lexer.read("new.txt"); // Или input.txt (правда while работает как if...)
+        /*
         LinkedList<Token> tokens = new LinkedList<Token>();
         tokens.add(new Token("a", Lexeme.VAR,0,0));
         tokens.add(new Token("3", Lexeme.NUM,0,0));
@@ -40,10 +34,12 @@ public class Main {
 
         tokens.add(new Token("a", Lexeme.VAR,0,0));
         tokens.add(new Token("print", Lexeme.PRINT_KW,0,0));
-         //*/
-        // Либо это
-        //LinkedList<Token> tokens = RPN.getRPN(lex);
-        //////////
+         */
+        for (Token lexToken:lex)
+            System.out.println(lexToken);
+        System.out.println("\n\n");
+
+        LinkedList<Token> tokens = RPN.getRPN(lex);
 
         Iterator<Token> it = tokens.iterator();
         while (it.hasNext()) {
