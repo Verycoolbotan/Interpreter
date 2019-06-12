@@ -1,3 +1,4 @@
+import Lexer.Lexeme;
 import Lexer.Lexer;
 import Lexer.Token;
 import Parser.Parser;
@@ -22,7 +23,28 @@ public class Main {
             out.println(it.next().toString());
         }*/
 
-        LinkedList<Token> tokens = RPN.getRPN(Lexer.read("input.txt"));
+        LinkedList<Token> lex = Lexer.read("new.txt");
+
+        for (Token lexToken:lex)
+            System.out.println(lexToken);
+        System.out.println("\n\n");
+
+        //////////
+        ///* Либо всё это
+        LinkedList<Token> tokens = new LinkedList<Token>();
+        tokens.add(new Token("a", Lexeme.VAR,0,0));
+        tokens.add(new Token("3", Lexeme.NUM,0,0));
+        tokens.add(new Token("2", Lexeme.NUM,0,0));
+        tokens.add(new Token("+", Lexeme.ARITHMETICAL_OP,0,0));
+        tokens.add(new Token("=", Lexeme.ASSIGN_OP,0,0));
+
+        tokens.add(new Token("a", Lexeme.VAR,0,0));
+        tokens.add(new Token("print", Lexeme.PRINT_KW,0,0));
+         //*/
+        // Либо это
+        //LinkedList<Token> tokens = RPN.getRPN(lex);
+        //////////
+
         Iterator<Token> it = tokens.iterator();
         while (it.hasNext()) {
             out.println(it.next().toString());

@@ -119,7 +119,7 @@ public class RPN {
 
         while (!input.isEmpty()) {
             Token token = input.poll();
-            //Алгоритм нагло взят из книги Антика
+            //Алгоритм нагло взят из книги Антика -- а зря :)
             switch (token.getType()) {
                 //Операнды сразу отправляются в выходной список
                 case VAR:
