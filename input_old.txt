@@ -1,0 +1,8 @@
+cat=3
+while(cat<100){
+    a=15
+    cat=cat+a
+}
+if(cat==100){
+    print(a)
+}
