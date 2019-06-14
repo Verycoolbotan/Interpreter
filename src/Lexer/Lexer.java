@@ -7,7 +7,7 @@ import java.util.Collections;
 import java.util.regex.Matcher;
 
 public class Lexer {
-    private static final int COMMON_TYPE_NUM = 12; //Количество НЕ служебных типов
+    private static final int COMMON_TYPE_NUM = 13; //Количество НЕ служебных типов
     private static Scanner in;
     private static LinkedList<Token> tokens = new LinkedList<>();
     private static LinkedList<Token> candidates = new LinkedList<>();

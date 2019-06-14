@@ -1,6 +1,5 @@
 package StackMachine;
 
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Stack;
 
@@ -12,9 +11,6 @@ public class Machine {
     private static Stack<Token> stack = new Stack<>();
 
     private static Token mathCalc(Token operator) throws MachineException {
-
-        System.out.println("Math calc...");
-
         Token op2 = stack.pop();
         Token op1 = stack.pop();
 
@@ -42,9 +38,6 @@ public class Machine {
     }
 
     private static Token logicCalc(Token operator) throws MachineException {
-
-        System.out.println("Logic calc...");
-
         Token op2 = stack.pop();
         Token op1 = stack.pop();
 
@@ -78,9 +71,6 @@ public class Machine {
     }
 
     private static void assign() {
-
-        System.out.println("Assign...");
-
         //TODO: а если value - переменная?
         Token value = stack.pop();
         Token var = stack.pop();
@@ -88,7 +78,6 @@ public class Machine {
     }
 
     private static void print() throws MachineException {
-        System.out.println("Print...");
         Token token = stack.pop();
         int arg = token.getType().equals(Lexeme.VAR) ? Table.get(token.getValue()) : Integer.parseInt(token.getValue());
         //TODO: передать в конструктор PrintStream?
@@ -113,6 +102,10 @@ public class Machine {
                     break;
                 case ASSIGN_OP:
                     assign();
+                    break;
+                case START:
+                case END:
+                    stack.push(current);
                     break;
                 case GOTO:
                     address = stack.pop();

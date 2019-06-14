@@ -16,6 +16,7 @@ public enum Lexeme {
     NUM(Pattern.compile("-?(0|([1-9][0-9]*))")),
     L_CB(Pattern.compile("\\{")),
     R_CB(Pattern.compile("\\}")),
+    END_OF_LINE(Pattern.compile(";")),
 
     //Служебные типы для стек-машины
     GOTO_BY_FALSE(null), //Переход по невыполнению условия в if и while

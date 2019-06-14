@@ -1,8 +1,2 @@
-cat=3
-while(cat<1000){
-    a=15
-    cat=cat+(a*2)
-}
-if(cat==1000){
-    print(a)
-}
+i = 100 / 25;
+print(i);

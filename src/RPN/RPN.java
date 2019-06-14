@@ -23,7 +23,7 @@ public class RPN {
 
         while (open != close) {
             Token token = input.poll();
-            if(curly){
+            if (curly) {
                 if (token.getType().equals(Lexeme.L_CB))
                     open++;
                 else if (token.getType().equals(Lexeme.R_CB))
@@ -81,7 +81,8 @@ public class RPN {
         int start = out.size();
         int end = 0;
         Token startToken = new Token(String.valueOf(start), Lexeme.START);
-        Token endToken = new Token("", Lexeme.END);;
+        Token endToken = new Token("", Lexeme.END);
+        ;
 
         while (!stop) {
             Token token = input.poll();
@@ -119,6 +120,7 @@ public class RPN {
 
         while (!input.isEmpty()) {
             Token token = input.poll();
+            //Token token = input.pollLast();
             //Алгоритм нагло взят из книги Антика
             switch (token.getType()) {
                 //Операнды сразу отправляются в выходной список
@@ -137,7 +139,6 @@ public class RPN {
                     break;
                 //Открывающая скобка и прочие операции записываются в стек
                 case L_BR:
-                    //case L_CB:
                 case PRINT_KW:
                 case ASSIGN_OP:
                 case LOGICAL_OP:
@@ -148,6 +149,9 @@ public class RPN {
                     while ((!stack.isEmpty()) && !(top = stack.pop()).getType().equals(Lexeme.L_BR)) {
                         out.add(top);
                     }
+                    break;
+                case END_OF_LINE:
+                    if (!stack.isEmpty()) out.add(stack.pop());
                     break;
                 case WHILE_KW:
                     while2RPN(input);

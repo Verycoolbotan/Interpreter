@@ -3,18 +3,15 @@ package Parser;
 import Lexer.Lexeme;
 import Lexer.Token;
 
-import java.util.List;
-import java.io.PrintStream;
+import java.util.LinkedList;
 
 public class Parser {
-    private List<Token> lt;
-    private PrintStream out;
+    private LinkedList<Token> lt;
     private int currPos;
     private boolean endOfList;
 
-    public Parser(List<Token> lt, PrintStream out) {
+    public Parser(LinkedList<Token> lt) {
         this.lt = lt;
-        this.out = out;
         this.currPos = 0;
         this.endOfList = false;
     }
@@ -24,26 +21,23 @@ public class Parser {
             Token token = lt.get(currPos);
             if (token.getType() == l) {
                 currPos++;
-                out.println("Current token: " + token.toString() + " pos: " + currPos);
             } else {
-                out.println("Current token: " + token.toString() + " pos: " + currPos);
                 throw new ParseException(l, token);
             }
         } catch (IndexOutOfBoundsException e) {
             endOfList = true;
-            throw new ParseException("End of list");
+            throw new ParseException("Parser message: Success");
         }
     }
 
-    public void lang() {
+    public void lang() throws ParseException{
         try {
             while (!endOfList) {
                 expr();
             }
         } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            out.println("End of list: " + endOfList);
+            if (!endOfList) throw e;
+            //e.printStackTrace();
         }
     }
 
@@ -94,8 +88,9 @@ public class Parser {
             return;
         } catch (ParseException e) {
             if (!(e.getToken() == null)) {
+                //TODO: переписать условие
                 if ((e.getToken().getType() == Lexeme.PRINT_KW) && (e.getToken().getPos() == 1)) {
-                    out.println("Debug: print caught");
+                    //out.println("Debug: print caught");
                 } else {
                     switch (e.getType()) {
                         case ASSIGN_OP:
@@ -134,21 +129,18 @@ public class Parser {
     }
 
     private void ifExpr() throws ParseException {
-        out.println("Tying if expression...");
         ifKW();
         exprCondition();
         body();
     }
 
     private void whileExpr() throws ParseException {
-        out.println("Tying loop expression...");
         whileKW();
         exprCondition();
         body();
     }
 
     private void assignExpr() throws ParseException {
-        out.println("Tying assign expression...");
         var();
         assign();
         value();
@@ -160,14 +152,15 @@ public class Parser {
                 break;
             }
         }
+        endOfLine();
     }
 
     private void printExpr() throws ParseException {
-        out.println("Tying print expression...");
         printKW();
         lBR();
         value();
         rBR();
+        endOfLine();
     }
 
     private void exprCondition() throws ParseException {
@@ -189,42 +182,37 @@ public class Parser {
     }
 
     private void body() throws ParseException {
-        out.println("Start of body");
         lCB();
         try {
             while (!endOfList) {
                 expr();
             }
         } catch (Exception e) {
-            out.println(e.getMessage());
+            //out.println(e.getMessage());
         }
         rCB();
-        out.println("End of body");
     }
 
     private void value() throws ParseException {
         try {
-            out.println("Assuming value as a variable...");
             var();
             return;
         } catch (ParseException e) {
-            out.println(e.getMessage());
+            //out.println(e.getMessage());
         }
 
         try {
-            out.println("Assuming value as a NUM...");
             NUM();
             return;
         } catch (ParseException e) {
-            out.println(e.getMessage());
+            //out.println(e.getMessage());
         }
 
         try {
-            out.println("Assuming value as enclosed brackets...");
             br_expr();
             return;
         } catch (ParseException e) {
-            out.println(e.getMessage());
+            //out.println(e.getMessage());
         }
 
         throw new ParseException("Variable, NUM or expression expected");
@@ -291,5 +279,9 @@ public class Parser {
 
     private void rCB() throws ParseException {
         terminal(Lexeme.R_CB);
+    }
+
+    private void endOfLine() throws ParseException {
+        terminal(Lexeme.END_OF_LINE);
     }
 }

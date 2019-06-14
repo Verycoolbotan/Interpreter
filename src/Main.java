@@ -1,34 +1,46 @@
-import Lexer.Lexer;
-import Lexer.Token;
+import Lexer.*;
 import Parser.Parser;
 import RPN.RPN;
 import StackMachine.Machine;
 
-import java.io.PrintStream;
 import java.util.LinkedList;
-import java.util.Iterator;
 
 public class Main {
-    static PrintStream out = System.out;
     static Parser parser;
+    static LinkedList<Token> input;
 
     public static void main(String[] args) {
-        /*parser = new Parser(Lexer.read("input.txt"), out);
-        parser.lang();*/
-
-        /*ArrayList<Token> list = Lexer.read("input.txt");
-        Iterator<Token> it = list.iterator();
-        while (it.hasNext()) {
-            out.println(it.next().toString());
-        }*/
-
-        LinkedList<Token> tokens = RPN.getRPN(Lexer.read("input.txt"));
-        Iterator<Token> it = tokens.iterator();
-        while (it.hasNext()) {
-            out.println(it.next().toString());
-        }
         try {
-            Machine.run(tokens);
+            input = Lexer.read(args[0]);
+            //input = Lexer.read("input.txt");
+            parser = new Parser(input);
+            parser.lang();
+            System.out.println("Parser success");
+
+            /*Добавляем неявные скобки в выражения для корректной работы присваивания.
+             *Да, я ОЧЕНЬ торопился.
+             */
+            int i = 0;
+            while (i < input.size()) {
+                Token current = input.get(i);
+                switch (current.getType()) {
+                    case ASSIGN_OP:
+                        input.add(i + 1, new Token("(", Lexeme.L_BR));
+                        i += 2;
+                        break;
+                    case END_OF_LINE:
+                        input.add(i, new Token(")", Lexeme.R_BR));
+                        i += 2;
+                        break;
+                    default:
+                        i++;
+                        break;
+                }
+            }
+
+            LinkedList<Token> rpn = RPN.getRPN(input);
+            Machine.run(rpn);
+
         } catch (Exception e) {
             e.printStackTrace();
         }
