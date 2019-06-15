@@ -120,7 +120,6 @@ public class RPN {
 
         while (!input.isEmpty()) {
             Token token = input.poll();
-            //Token token = input.pollLast();
             //Алгоритм нагло взят из книги Антика
             switch (token.getType()) {
                 //Операнды сразу отправляются в выходной список

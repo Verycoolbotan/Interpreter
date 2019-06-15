@@ -15,7 +15,6 @@ public class Main {
             //input = Lexer.read("input.txt");
             parser = new Parser(input);
             parser.lang();
-            System.out.println("Parser success");
 
             /*Добавляем неявные скобки в выражения для корректной работы присваивания.
              *Да, я ОЧЕНЬ торопился.
